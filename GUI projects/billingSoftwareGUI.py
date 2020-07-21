@@ -12,89 +12,108 @@ class billWindow:
         cFrame=LabelFrame(self.root,text="Customer Details",fg='red',font='lucida 20',bd=8,relief=RIDGE)
         #relWidth sets the width  relative to its parent and  x , y are coordinates
         cFrame.place(x=0,y=50,relwidth=1)
-
-        cname=Label(cFrame,text='Customer Name',fg='red',font='lucida 15',bd=8,relief=RIDGE)
-        cname.grid()
-        cNameValueStr=StringVar()
-        cNameValue=Entry(cFrame,text=cNameValueStr,width=20)
-        cNameValue.grid(row=0,column=1,padx=10,pady=5)
-
-        cPhone=Label(cFrame,text='Customer Name',fg='red',font='lucida 15',bd=8,relief=RIDGE)
-        cPhone.grid(row=0,column=2)
-        cPhoneValueStr=StringVar()
-        cPhoneValue=Entry(cFrame,text=cPhoneValueStr,width=20)
-        cPhoneValue.grid(row=0,column=3,padx=10,pady=5)
-
-        cBillNo=Label(cFrame,text='Customer Name',fg='red',font='lucida 15',bd=8,relief=RIDGE)
-        cBillNo.grid(row=0,column=4)
-        cBillValueStr=StringVar()
-        cBillValue=Entry(cFrame,text=cBillValueStr,width=20)
-        cBillValue.grid(row=0,column=5,padx=10,pady=5)
-        #search customer
-        cSearchBtn=Button(cFrame,text='Search',width=10).grid(row=0,column=6,pady=5)
-        #grocery section
-        gFrame=LabelFrame(self.root,text="Grocery",fg='red',font='lucida 20',bd=8,relief=RIDGE)
-        gFrame.place(x=0,y=130,relwidth=0.25)
-        rice=Label(gFrame,text='Rice',fg='red',font='lucida 15')
-        rice.grid(row=0,column=0,padx=2,pady=2)
-        WheatFlour=Label(gFrame,text='WheatFlour',fg='red',font='lucida 15')
-        WheatFlour.grid(row=1,column=0,padx=2,pady=2)
-        Oil=Label(gFrame,text='Oil',fg='red',font='lucida 15')
-        Oil.grid(row=2,column=0,padx=2,pady=2)
-        Pulses=Label(gFrame,text='Pulses',fg='red',font='lucida 15')
-        Pulses.grid(row=3,column=0,padx=2,pady=2)
-        #grocery input Values
-        groceryInputValue=["0","0","0","0"]
-        global groceryEntryList
-        groceryEntryList=[]
         global j
         j=0
-        
-        for i in groceryInputValue:
-            groceryEntryList.append(Entry(gFrame,text=groceryInputValue[j]).grid(row=j,column=1,padx=2,pady=2))
+        self.cDetailsList=['Customer Name','Contact No.','Bill No.']
+        self.cDetailsLabel=[]
+        self.cDetailsStr=[StringVar(),StringVar(),StringVar()]
+        self.cDetailsEntry=[]
+        for i in self.cDetailsStr:
+            self.cDetailsLabel.append(Label(cFrame,text=self.cDetailsList[j],fg='red',font='lucida 15').grid(row=0,column=j*2))
+            self.cDetailsEntry.append(Entry(cFrame,text=self.cDetailsStr[j],font='lucida 15',width=20).grid(row=0,column=j*2+1,padx=2,pady=2))
+            self.cDetailsStr[j].set('')
             j+=1
+        
+        #search customer
+        self.cSearchBtn=Button(cFrame,text='Search',width=10).grid(row=0,column=6,pady=5)
+        #grocery section
+        
+        gFrame=LabelFrame(self.root,text="Grocery",fg='red',font='lucida 20',bd=8,relief=RIDGE)
+        gFrame.place(x=0,y=150,relwidth=0.30)
 
+        j=0
+        self.gDetailsList=['Rice(kg)','Wheat Flour(kg)','Oil(l)','Red Pulse(kg)','Sugar(kg)']
+        self.gDetailsLabel=[]
+        self.gDetailsStr=[StringVar(),StringVar(),StringVar(),StringVar(),StringVar()]
+        self.gDetailsEntry=[]
+        self.gRateList=[40,100,80,41,39]
+        for i in self.gDetailsStr:
+            self.gDetailsLabel.append(Label(gFrame,text=self.gDetailsList[j],fg='red',font='lucida 15').grid(row=j,column=0))
+            self.gDetailsEntry.append(Entry(gFrame,text=self.gDetailsStr[j],font='lucida 15',width=18).grid(row=j,column=1,padx=2,pady=2))
+            self.gDetailsStr[j].set('')
+            j+=1
+        
         #cold drink section
         drinkFrame=LabelFrame(self.root,text='Cold Drinks',font='lucida 20',fg='red',relief=GROOVE,bd=8)
-        drinkFrame.place(x=325,y=130,relwidth=0.25)
-        drinkList=['maaza','slice','Thumbs Up','Coca Cola']
-        drinkEntryValue=['','','','']
-        global drinkLabelList
-        drinkLabelList=[]
-        global drinkEntryList
-        drinkEntryList=[]
+        drinkFrame.place(x=400,y=150,relwidth=0.30)
+        self.drinkList=['maaza','slice','Thumbs Up','Coca Cola']
+        self.drinkEntryValue=[StringVar(),StringVar(),StringVar(),StringVar()]
+        self.drinkLabelList=[]
+        self.drinkEntryList=[]
+        self.drinkRateList=[80,75,80,90]
         j=0
-        for i in drinkList:
-            drinkLabelList.append(Label(drinkFrame,text=drinkList[j],font='lucida 15',fg='red').grid(row=j,column=0,padx=2,pady=2))
-            drinkEntryList.append(Entry(drinkFrame,text=drinkEntryValue[j]).grid(row=j,column=1))
+        for i in self.drinkList:
+            self.drinkLabelList.append(Label(drinkFrame,text=self.drinkList[j],font='lucida 15',fg='red').grid(row=j,column=0,padx=2,pady=2))
+            self.drinkEntryList.append(Entry(drinkFrame,text=self.drinkEntryValue[j]).grid(row=j,column=1,padx=2,pady=2))
+            self.drinkEntryValue[j].set('')
             j+=1
         # bill area
-        billAreaF=LabelFrame(self.root,bg='grey',font='lucida 20',fg='red',relief=GROOVE,bd=8)
-        billAreaF.place(x=640,y=150,relwidth=.50)
+        billAreaF=Frame(self.root,relief=GROOVE,bd=8)
+        billAreaF.place(x=800,y=150,relwidth=0.35,height=600)
         # billAreaF.pack()
+        #scroll Bar fro bill Area
+        
         billtitle=Label(billAreaF,text='Bill Area',font='lucida 20',fg='green',bd=8,relief=RIDGE)
         billtitle.pack(fill=X)
-        billAreaContent=Label(billAreaF,text='Bill Area',font='lucida 15',bd=8)
-        billAreaContent.pack(fill=X)
+        
+        self.billAreaContent=Label(billAreaF,text='Welcome!!',font='lucida 15',bd=8)
+        self.billAreaContent.pack(fill=X)
+        #scroll bars cannot work with
+        
         #now buttons
         btnFrame=LabelFrame(self.root,relief=SUNKEN,text='Billing Menu',bd=8,font='lucida 28')
-        btnFrame.place(x=0,y=300,relwidth=.50)
-        totalBtn=Button(btnFrame,text='Total',font='lucida 18',relief=SUNKEN,bd=8,fg='blue',command=self.totalFunc).pack(side=LEFT,padx=10)
+        btnFrame.place(x=0,y=350,relwidth=.50)
         clearBtn=Button(btnFrame,text='Clear',font='lucida 18',relief=SUNKEN,bd=8,fg='blue',command=self.clearFunc).pack(side=LEFT,padx=10)
         generateBtn=Button(btnFrame,text='Generate Bill',font='lucida 18',relief=SUNKEN,bd=8,fg='blue',command=self.generateBillFunc).pack(side=LEFT,padx=10)
         exitBtn=Button(btnFrame,text='Exit',font='lucida 18',relief=SUNKEN,bd=8,fg='blue',command=self.exitFunc).pack(side=LEFT,padx=10)
         
     def exitFunc(self):
         exit()
-    def totalFunc(self):
-        print('giving total')
-        
-        for i in drinkEntryList:
-            pass
     def clearFunc(self):
-        print('Clear total')
+        for i in self.gDetailsStr:
+            i.set('')
+        for i in self.drinkEntryValue:
+            i.set('')
+        for i in self.cDetailsStr:
+            i.set('')
+        self.billAreaContent.config(text='Welcome!!')
     def generateBillFunc(self):
-        print('Clear total')
+        billContent='Welcome to SYED Retails\n'
+        # print(self.cDetailsStr[2].get())
+        if self.cDetailsStr[2].get()=='' or self.cDetailsStr[1].get()=='' or self.cDetailsStr[0].get()=='' or self.cDetailsStr[1].get().isdigit()!=TRUE:
+            self.billAreaContent.config(text='First Enter Details Properly')
+            return
+        billContent+=f'Phone No. 7827141330\nBill No. {self.cDetailsStr[2].get()} \n'
+        billContent+=f'Contact No. {self.cDetailsStr[1].get()} \n'
+        billContent+=f'Customer Name {self.cDetailsStr[0].get()} \n'
+        global total
+        total=0
+        global j
+        j=0
+        for i in self.gDetailsStr:
+            if i.get()!='' and i.get().isdigit() :
+                billContent+=f'{self.gDetailsList[j]}-- {i.get()}\n'
+                total+=float(int(i.get())*self.gRateList[j])
+            j+=1
+        j=0
+        for i in self.drinkEntryValue:
+            if i.get()!='' and i.get().isdigit():
+                billContent+=f'{self.drinkList[j]}-- {i.get()}\n'
+                total+=float(int(i.get())*self.drinkRateList[j])
+            j+=1
+        
+        billContent+=f'Total={total}'
+        self.billAreaContent.config(text=billContent)
 
 root=Tk()
 mybill=billWindow(root)
